@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Waste Management Dashboard",
-  description: "Dynamic price and waste optimization dashboard",
+  title: "Dynamic Pricing & Promo Recommendation",
+  description: "AI driven dynamic pricing and promotion recommendations to optimize profits and minimize waste.",
 };
 
 export default function RootLayout({
