@@ -16,12 +16,12 @@ export function FeatureCard({ title, description, imageUrl }: FeatureCardProps) 
                  w-full h-full text-left"
     >
       {/* Image with overlay */}
-      <div className="relative h-44 md:h-48 overflow-hidden">
+      <div className="relative h-50 md:h-70 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/50 to-transparent z-10" />
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover object-left transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
