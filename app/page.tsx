@@ -20,14 +20,14 @@ export default function LandingPage() {
     <main
       className={`
         relative min-h-dvh text-white
-        /* base dark gradient */
-        bg-[linear-gradient(180deg,#0b0b12_0%,#0a0a10_100%)]
-        /* violet radial glow top-right */
+        /* base gradient with neon tint */
+        bg-[linear-gradient(180deg,#1a0b2e_0%,#0f0520_50%,#0a0a10_100%)]
+        /* dark violet neon glow top-right */
         before:pointer-events-none before:content-[''] before:absolute before:inset-0
-        before:bg-[radial-gradient(1200px_600px_at_85%_-10%,rgba(139,92,246,0.45),transparent_60%)]
-        /* blue-violet radial glow bottom-left */
+        before:bg-[radial-gradient(1400px_700px_at_85%_-5%,rgba(124,35,200,0.75),rgba(100,30,180,0.4),transparent_50%)]
+        /* dark violet neon glow bottom-left */
         after:pointer-events-none after:content-[''] after:absolute after:inset-0
-        after:bg-[radial-gradient(1100px_600px_at_0%_110%,rgba(88,28,135,0.38),transparent_65%)]
+        after:bg-[radial-gradient(1200px_650px_at_0%_120%,rgba(124,35,200,0.7),rgba(100,30,180,0.35),transparent_55%)]
       `}
     >
       {/* Subtle noise layer */}

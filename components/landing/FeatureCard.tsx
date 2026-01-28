@@ -11,8 +11,10 @@ export function FeatureCard({ title, description, imageUrl }: FeatureCardProps) 
     <button
       className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl
                  shadow-[0_0_28px] shadow-violet-600/10
-                 ring-1 ring-white/5 hover:ring-violet-400/30 transition
-                 hover:border-violet-400/40 hover:shadow-[0_0_32px] hover:shadow-violet-600/25
+                 ring-1 ring-white/5 transition-all duration-300
+                 hover:border-violet-400/60 hover:ring-violet-500/50
+                 hover:shadow-[0_0_40px] hover:shadow-violet-600/60 hover:shadow-[inset_0_0_30px] hover:shadow-violet-500/20
+                 hover:bg-white/8 hover:backdrop-blur-2xl
                  w-full h-full text-left"
     >
       {/* Image with overlay */}

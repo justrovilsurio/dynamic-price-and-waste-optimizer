@@ -57,7 +57,7 @@ export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
   };
 
   return (
-    <div className="relative flex h-full min-h-[540px] flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 overflow-hidden">
+    <div className="relative flex h-full min-h-[540px] flex-col rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-4 overflow-hidden transition-all duration-300 hover:border-violet-400/40 hover:shadow-[0_0_24px] hover:shadow-violet-600/30 hover:bg-white/7">
       {/* Background grid pattern */}
       <svg
         className="absolute inset-0 pointer-events-none opacity-10 mix-blend-screen"
