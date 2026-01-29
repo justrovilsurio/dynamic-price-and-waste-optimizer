@@ -12,11 +12,15 @@ export default function PricingPage() {
   const [draftAction, setDraftAction] = useState('profit');
   const [draftDepartment, setDraftDepartment] = useState('fresh');
   const [draftRegion, setDraftRegion] = useState('national');
+  const [draftState, setDraftState] = useState('');
+  const [draftStore, setDraftStore] = useState('');
 
   // Applied filters (what drives the table)
   const [appliedAction, setAppliedAction] = useState('profit');
   const [appliedDepartment, setAppliedDepartment] = useState('fresh');
   const [appliedRegion, setAppliedRegion] = useState('national');
+  const [appliedState, setAppliedState] = useState('');
+  const [appliedStore, setAppliedStore] = useState('');
 
   // Table state
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
@@ -27,12 +31,16 @@ export default function PricingPage() {
     setAppliedAction(draftAction);
     setAppliedDepartment(draftDepartment);
     setAppliedRegion(draftRegion);
+    setAppliedState(draftState);
+    setAppliedStore(draftStore);
   };
 
   const handleResetFilters = () => {
     setDraftAction(appliedAction);
     setDraftDepartment(appliedDepartment);
     setDraftRegion(appliedRegion);
+    setDraftState(appliedState);
+    setDraftStore(appliedStore);
   };
 
   const handlePriceChange = (itemId: string, newPrice: number) => {
@@ -46,6 +54,8 @@ export default function PricingPage() {
   const filteredItems = filterItems(mockItems, {
     department: appliedDepartment,
     region: appliedRegion,
+    state: appliedState,
+    store: appliedStore,
   });
 
   return (
@@ -123,9 +133,13 @@ export default function PricingPage() {
           draftAction={draftAction}
           draftDepartment={draftDepartment}
           draftRegion={draftRegion}
+          draftState={draftState}
+          draftStore={draftStore}
           onActionChange={setDraftAction}
           onDepartmentChange={setDraftDepartment}
           onRegionChange={setDraftRegion}
+          onStateChange={setDraftState}
+          onStoreChange={setDraftStore}
           onApply={handleApplyFilters}
           onReset={handleResetFilters}
         />

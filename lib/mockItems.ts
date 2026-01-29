@@ -3,6 +3,8 @@ export interface Item {
   department: 'fresh' | 'meat' | 'deli';
   departmentDescription: string;
   region: 'national' | 'state' | 'store';
+  state?: 'VIC' | 'NSW' | 'QLD';
+  store?: string;
   item: string;
   itemName: string;
   itemDescription: string;
@@ -42,6 +44,7 @@ export const mockItems: Item[] = [
     department: 'fresh',
     departmentDescription: 'Fresh Produce',
     region: 'state',
+    state: 'VIC',
     item: 'LET-001',
     itemName: 'Lettuce (Iceberg)',
     itemDescription: 'Fresh iceberg lettuce, head',
@@ -54,6 +57,7 @@ export const mockItems: Item[] = [
     department: 'fresh',
     departmentDescription: 'Fresh Produce',
     region: 'store',
+    store: '505',
     item: 'TOM-001',
     itemName: 'Tomatoes (Roma)',
     itemDescription: 'Roma tomatoes, per lb',
@@ -80,6 +84,7 @@ export const mockItems: Item[] = [
     department: 'meat',
     departmentDescription: 'Meat',
     region: 'state',
+    state: 'NSW',
     item: 'BEF-001',
     itemName: 'Ground Beef (80/20)',
     itemDescription: 'Lean ground beef, per lb',
@@ -92,6 +97,7 @@ export const mockItems: Item[] = [
     department: 'meat',
     departmentDescription: 'Meat',
     region: 'store',
+    store: '671',
     item: 'PRK-001',
     itemName: 'Pork Chops',
     itemDescription: 'Bone-in pork chops, per lb',
@@ -118,6 +124,7 @@ export const mockItems: Item[] = [
     department: 'deli',
     departmentDescription: 'Deli',
     region: 'state',
+    state: 'QLD',
     item: 'TUR-001',
     itemName: 'Sliced Turkey',
     itemDescription: 'Roasted turkey breast, per lb',
@@ -130,6 +137,7 @@ export const mockItems: Item[] = [
     department: 'deli',
     departmentDescription: 'Deli',
     region: 'store',
+    store: '823',
     item: 'CHE-001',
     itemName: 'Cheddar Cheese',
     itemDescription: 'Sliced cheddar cheese, per lb',
@@ -142,7 +150,13 @@ export const mockItems: Item[] = [
 // Filter items by applied filters
 export function filterItems(
   items: Item[],
-  filters: { action?: string; department?: string; region?: string },
+  filters: { 
+    action?: string; 
+    department?: string; 
+    region?: string;
+    state?: string;
+    store?: string;
+  },
   search?: string
 ): Item[] {
   let filtered = items;
@@ -153,6 +167,14 @@ export function filterItems(
 
   if (filters.region && filters.region !== 'all') {
     filtered = filtered.filter((item) => item.region === filters.region);
+  }
+
+  if (filters.state && filters.state !== 'all') {
+    filtered = filtered.filter((item) => item.state === filters.state);
+  }
+
+  if (filters.store && filters.store !== 'all') {
+    filtered = filtered.filter((item) => item.store === filters.store);
   }
 
   if (search && search.trim()) {

@@ -200,7 +200,7 @@ export function PriceTable({
                           <span className="text-white/90 font-mono">${userPrice.toFixed(2)}</span>
                           <button
                             onClick={() => handleEditStart(item.id, userPrice)}
-                            className="opacity-0 group-hover:opacity-100 text-violet-400 hover:text-violet-300 transition"
+                            className="text-violet-400 hover:text-violet-300 hover:scale-110 transition-all duration-200"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
