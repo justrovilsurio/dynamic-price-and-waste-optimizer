@@ -20,6 +20,11 @@ interface FilterBarProps {
 
 const STATES = ['VIC', 'NSW', 'QLD'];
 const STORES = ['505', '671', '823', '219', '896', '376'];
+const DEPARTMENTS = [
+  { label: 'Fresh Produce', value: 'fresh' },
+  { label: 'Meat', value: 'meat' },
+  { label: 'Deli', value: 'deli' },
+];
 
 export function FilterBar({
   draftAction,
@@ -35,10 +40,16 @@ export function FilterBar({
   onApply,
   onReset,
 }: FilterBarProps) {
+  const [departmentDropdownOpen, setDepartmentDropdownOpen] = useState(false);
+  const [departmentSearch, setDepartmentSearch] = useState('');
   const [stateDropdownOpen, setStateDropdownOpen] = useState(false);
   const [stateSearch, setStateSearch] = useState('');
   const [storeDropdownOpen, setStoreDropdownOpen] = useState(false);
   const [storeSearch, setStoreSearch] = useState('');
+
+  const filteredDepartments = DEPARTMENTS.filter(dept =>
+    dept.label.toLowerCase().includes(departmentSearch.toLowerCase())
+  );
 
   const filteredStates = STATES.filter(state =>
     state.toLowerCase().includes(stateSearch.toLowerCase())
@@ -51,7 +62,7 @@ export function FilterBar({
   return (
     <div className="sticky top-0 z-20 rounded-2xl border-2 border-white/20 bg-white/[0.08] backdrop-blur-2xl p-4 mb-6 shadow-[0_8_32px] shadow-violet-600/20">
       {/* Filter Groups */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         {/* Action Filter */}
         <div className="space-y-2">
           <label className="text-sm font-semibold text-white/90">Action</label>
@@ -74,25 +85,51 @@ export function FilterBar({
         {/* Department Filter */}
         <div className="space-y-2">
           <label className="text-sm font-semibold text-white/90">Department</label>
-          <div className="flex gap-2 flex-wrap">
-            <RadioChip
-              label="Fresh Produce"
-              value="fresh"
-              checked={draftDepartment === 'fresh'}
-              onChange={() => onDepartmentChange('fresh')}
-            />
-            <RadioChip
-              label="Meat"
-              value="meat"
-              checked={draftDepartment === 'meat'}
-              onChange={() => onDepartmentChange('meat')}
-            />
-            <RadioChip
-              label="Deli"
-              value="deli"
-              checked={draftDepartment === 'deli'}
-              onChange={() => onDepartmentChange('deli')}
-            />
+          <div className="relative">
+            <button
+              onClick={() => setDepartmentDropdownOpen(!departmentDropdownOpen)}
+              className="w-full px-3 py-2 rounded-lg border-2 border-white/20 bg-white/[0.08]
+                       text-white/90 text-sm font-medium flex items-center justify-between
+                       hover:border-white/40 transition-all duration-300"
+            >
+              {DEPARTMENTS.find(d => d.value === draftDepartment)?.label || 'Select Department'}
+              <ChevronDown size={16} className={`transition-transform duration-300 ${departmentDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {departmentDropdownOpen && (
+              <div className="absolute top-full mt-2 w-full rounded-lg border-2 border-white/20 bg-[#1a0b2e] backdrop-blur-2xl shadow-[0_8_32px] shadow-violet-600/20 z-30">
+                <div className="p-2 border-b border-white/10">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10">
+                    <Search size={14} className="text-white/50" />
+                    <input
+                      type="text"
+                      placeholder="Search departments..."
+                      value={departmentSearch}
+                      onChange={(e) => setDepartmentSearch(e.target.value)}
+                      className="flex-1 bg-transparent text-white/90 text-sm outline-none placeholder:text-white/40"
+                    />
+                  </div>
+                </div>
+                <div className="max-h-40 overflow-y-auto">
+                  {filteredDepartments.map((dept) => (
+                    <button
+                      key={dept.value}
+                      onClick={() => {
+                        onDepartmentChange(dept.value);
+                        setDepartmentDropdownOpen(false);
+                        setDepartmentSearch('');
+                      }}
+                      className={`w-full px-4 py-2 text-left text-sm transition-all duration-300 ${
+                        draftDepartment === dept.value
+                          ? 'bg-violet-500/20 border-l-2 border-violet-400 text-white font-medium'
+                          : 'text-white/70 hover:bg-white/5 hover:text-white'
+                      }`}
+                    >
+                      {dept.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

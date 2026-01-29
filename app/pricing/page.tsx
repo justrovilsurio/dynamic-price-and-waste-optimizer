@@ -111,15 +111,15 @@ export default function PricingPage() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8">
         {/* Back Button */}
-        <button
-          onClick={() => window.history.back()}
-          className="mb-6 p-3 rounded-lg border-2 border-white/20 bg-white/[0.08] text-white/90
+        <Link
+          href="/"
+          className="mb-6 inline-flex p-3 rounded-lg border-2 border-white/20 bg-white/[0.08] text-white/90
                     hover:border-white/40 hover:text-white hover:shadow-[0_0_24px] hover:shadow-violet-600/30
-                    backdrop-blur-3xl transition-all duration-300 flex items-center gap-2 group"
+                    backdrop-blur-3xl transition-all duration-300 items-center gap-2 group"
         >
           <ArrowLeft size={20} className="group-hover:text-violet-400 transition-colors duration-300" />
           <span className="text-sm font-medium">Back</span>
-        </button>
+        </Link>
 
         {/* Header */}
         <div className="mb-8 flex items-start justify-between">
