@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { FeatureCard } from './FeatureCard';
 
 const FEATURES = [
@@ -7,11 +8,13 @@ const FEATURES = [
     title: 'Price Optimization',
     description: 'Dynamically adjust pricing to maximize profit and reduce waste.',
     imageUrl: '/price-opti.png',
+    href: '/pricing',
   },
   {
     title: 'Promo Recommendation',
     description: 'Get AI-powered promotion suggestions to move inventory faster.',
     imageUrl: '/promo-pic.png',
+    href: '#',
   },
 ];
 
@@ -24,12 +27,13 @@ export function FeatureGrid() {
       </div>
       <div className="grid grid-cols-1 gap-4">
         {FEATURES.map((feature) => (
-          <FeatureCard
-            key={feature.title}
-            title={feature.title}
-            description={feature.description}
-            imageUrl={feature.imageUrl}
-          />
+          <Link key={feature.title} href={feature.href}>
+            <FeatureCard
+              title={feature.title}
+              description={feature.description}
+              imageUrl={feature.imageUrl}
+            />
+          </Link>
         ))}
       </div>
     </div>
