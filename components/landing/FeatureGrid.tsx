@@ -14,7 +14,7 @@ const FEATURES = [
     title: 'Promo Recommendation',
     description: 'Get AI-powered promotion suggestions to move inventory faster.',
     imageUrl: '/promo-pic.png',
-    href: '#',
+    href: '/promo-recommendation',
   },
 ];
 
