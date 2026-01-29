@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, BarChart3 } from 'lucide-react';
 import { mockItems, filterItems } from '@/lib/mockItems';
 import { FilterBar } from '@/components/pricing/FilterBar';
 import { PriceTable } from '@/components/pricing/PriceTable';
@@ -121,11 +122,24 @@ export default function PricingPage() {
         </button>
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Price Optimization</h1>
-          <p className="text-white/70">
-            Adjust pricing to {appliedAction === 'profit' ? 'maximize profit' : 'grow revenue'} across departments and regions
-          </p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-white mb-2">Price Optimization</h1>
+            <p className="text-white/70">
+              Adjust pricing to {appliedAction === 'profit' ? 'maximize profit' : 'grow revenue'} across departments and regions
+            </p>
+          </div>
+
+          {/* Summary Button */}
+          <Link
+            href="/pricing/summary"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-white/20 bg-white/[0.08]
+                     text-white/90 text-sm font-medium hover:border-white/40 hover:text-white
+                     backdrop-blur-3xl transition-all duration-300 ml-6 flex-shrink-0 breathing"
+          >
+            <BarChart3 size={16} />
+            Summary
+          </Link>
         </div>
 
         {/* Filter Bar */}
