@@ -108,23 +108,14 @@ export function PriceTable({
                 <th className="px-4 py-3 text-left font-semibold text-white/90">Item Name</th>
                 <th className="px-4 py-3 text-left font-semibold text-white/90">Item Description</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">CP ($)</th>
-                <th className="px-4 py-3 text-right font-semibold text-white/90">RP ($)</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Original RP ($)</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Optimized RP ($)</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">% Change</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">User Adjusted Price ($)</th>
-                {action === 'revenue' && (
-                  <>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Units</th>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Revenue CP ($)</th>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Revenue RP ($)</th>
-                  </>
-                )}
-                {action === 'profit' && (
-                  <>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Units</th>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Profit CP ($)</th>
-                    <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Profit RP ($)</th>
-                  </>
-                )}
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Unit CP</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Unit RP</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Profit CP ($)</th>
+                <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Optimized Profit RP ($)</th>
               </tr>
             </thead>
             <tbody>
@@ -160,6 +151,9 @@ export function PriceTable({
                     <td className="px-4 py-3 text-white/70 text-xs">{item.itemDescription}</td>
                     <td className="px-4 py-3 text-right text-white/90 font-mono">
                       ${item.cp.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                      ${item.rp.toFixed(2)}
                     </td>
                     <td className="px-4 py-3 text-right text-white/90 font-mono">
                       ${item.rp.toFixed(2)}
@@ -207,32 +201,18 @@ export function PriceTable({
                         </div>
                       )}
                     </td>
-                    {action === 'revenue' && (
-                      <>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          {item.weeklyUnits}
-                        </td>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          ${weeklyCostRevenue.toFixed(2)}
-                        </td>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          ${weeklyUserRevenue.toFixed(2)}
-                        </td>
-                      </>
-                    )}
-                    {action === 'profit' && (
-                      <>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          {item.weeklyUnits}
-                        </td>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          $0.00
-                        </td>
-                        <td className="px-4 py-3 text-right text-white/90 font-mono">
-                          ${weeklyProfit.toFixed(2)}
-                        </td>
-                      </>
-                    )}
+                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                      {item.weeklyUnits}
+                    </td>
+                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                      ${weeklyCostRevenue.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                      $0.00
+                    </td>
+                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                      ${weeklyProfit.toFixed(2)}
+                    </td>
                   </tr>
                 );
               })}
@@ -240,6 +220,24 @@ export function PriceTable({
           </table>
         </div>
       )}
+
+      {/* Action Buttons */}
+      <div className="flex gap-3 justify-end p-4 border-t border-white/10">
+        <button
+          className="px-4 py-2 rounded-xl border border-white/20 text-white/80 text-sm font-medium
+                     hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          className="px-4 py-2 rounded-xl bg-gradient-to-br from-violet-500 to-violet-600
+                     text-white text-sm font-medium shadow-[0_0_22px] shadow-violet-600/30
+                     hover:from-violet-500 hover:to-violet-500/90
+                     transition-all duration-300"
+        >
+          Publish
+        </button>
+      </div>
     </div>
   );
 }
