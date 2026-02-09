@@ -8,12 +8,42 @@ export default function LandingPage() {
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string }>>([
     { role: 'assistant', text: 'Hi! Ask me about pricing optimization or promotional strategies.' }
   ]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSendMessage = (message: string) => {
+  const handleSendMessage = async (message: string) => {
+    // Add user message
     setMessages((prev) => [...prev, { role: 'user', text: message }]);
-    // TODO: Connect to your agent/API
-    console.log('Message sent:', message);
-    // Example: call your agent API here and add response
+    setIsLoading(true);
+
+    try {
+      // Call backend API
+      const response = await fetch('/api/call-agent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to get response from agent');
+      }
+
+      const data = await response.json();
+      const assistantResponse = data.response || 'Sorry, I could not process that request.';
+
+      // Add assistant response
+      setMessages((prev) => [...prev, { role: 'assistant', text: assistantResponse }]);
+    } catch (error) {
+      console.error('Error calling agent:', error);
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while processing your message.';
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', text: `Error: ${errorMessage}` },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -85,7 +115,7 @@ export default function LandingPage() {
 
           {/* Right side - Chat */}
           <div className="lg:col-span-6">
-            <ChatPanel messages={messages} onSendMessage={handleSendMessage} />
+            <ChatPanel messages={messages} onSendMessage={handleSendMessage} isLoading={isLoading} />
           </div>
         </div>
       </div>

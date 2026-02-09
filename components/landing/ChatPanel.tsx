@@ -17,9 +17,10 @@ const SUGGESTIONS = [
 interface ChatPanelProps {
   messages: Array<{ role: 'user' | 'assistant'; text: string }>;
   onSendMessage: (message: string) => void;
+  isLoading?: boolean;
 }
 
-export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
+export function ChatPanel({ messages, onSendMessage, isLoading = false }: ChatPanelProps) {
   const [input, setInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
   };
 
   const handleSend = () => {
-    if (input.trim()) {
+    if (input.trim() && !isLoading) {
       onSendMessage(input);
       setInput('');
     }
@@ -93,6 +94,15 @@ export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
         {messages.map((msg, idx) => (
           <MessageBubble key={idx} role={msg.role} text={msg.text} />
         ))}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="flex gap-1 items-center">
+              <div className="h-2 w-2 rounded-full bg-violet-400 animate-bounce" />
+              <div className="h-2 w-2 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: '0.1s' }} />
+              <div className="h-2 w-2 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
+            </div>
+          </div>
+        )}
         <div ref={messagesEndRef} />
       </div>
 
@@ -107,6 +117,7 @@ export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
               key={suggestion}
               text={suggestion}
               onClick={handleSuggestionClick}
+              disabled={isLoading}
             />
           ))}
         </div>
@@ -120,15 +131,17 @@ export function ChatPanel({ messages, onSendMessage }: ChatPanelProps) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Type your question..."
+          disabled={isLoading}
           rows={1}
           className="no-scrollbar min-h-[44px] max-h-28 resize-none rounded-xl border border-white/10 bg-white/7 backdrop-blur-xl
                      px-3 py-2 text-sm placeholder-white/40 text-white
                      focus:outline-none focus:ring-2 focus:ring-violet-400/60 focus:ring-offset-2 focus:ring-offset-black
+                     disabled:opacity-50 disabled:cursor-not-allowed
                      transition"
         />
         <button
           onClick={handleSend}
-          disabled={!input.trim()}
+          disabled={!input.trim() || isLoading}
           className="inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-600
                      px-4 py-2 text-sm font-medium shadow-[0_0_22px] shadow-violet-600/30
                      hover:from-violet-500 hover:to-violet-500/90
