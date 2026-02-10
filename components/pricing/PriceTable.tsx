@@ -109,9 +109,9 @@ export function PriceTable({
                 <th className="px-4 py-3 text-left font-semibold text-white/90">Item Description</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">CP ($)</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">Original RP ($)</th>
-                <th className="px-4 py-3 text-right font-semibold text-white/90">Optimized RP ($)</th>
+                <th className="px-4 py-3 text-right font-semibold text-white bg-violet-500/25 border-l border-r border-violet-400/40 rounded-lg">Optimized RP ($)</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">% Change</th>
-                <th className="px-4 py-3 text-right font-semibold text-white/90">User Adjusted Price ($)</th>
+                <th className="px-4 py-3 text-right font-semibold text-white bg-emerald-500/25 border-l border-r border-emerald-400/40 rounded-lg">User Adjusted Price ($)</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Unit CP</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Unit RP</th>
                 <th className="px-4 py-3 text-right font-semibold text-white/90">Weekly Profit CP ($)</th>
@@ -155,7 +155,7 @@ export function PriceTable({
                     <td className="px-4 py-3 text-right text-white/90 font-mono">
                       ${item.rp.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-right text-white/90 font-mono">
+                    <td className="px-4 py-3 text-right text-white font-mono font-semibold bg-violet-500/20 border-l border-r border-violet-400/30">
                       ${item.rp.toFixed(2)}
                     </td>
                     <td className={`px-4 py-3 text-right font-mono text-sm ${
@@ -163,7 +163,7 @@ export function PriceTable({
                     }`}>
                       {percentChange > 0 ? '+' : ''}{percentChange.toFixed(2)}%
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-right bg-emerald-500/15 border-l border-r border-emerald-400/25">
                       {editingId === item.id ? (
                         <div className="flex items-center justify-end gap-2">
                           <input
@@ -191,10 +191,10 @@ export function PriceTable({
                         </div>
                       ) : (
                         <div className="flex items-center justify-end gap-2 group">
-                          <span className="text-white/90 font-mono">${userPrice.toFixed(2)}</span>
+                          <span className="text-white font-mono font-semibold">${userPrice.toFixed(2)}</span>
                           <button
                             onClick={() => handleEditStart(item.id, userPrice)}
-                            className="text-violet-400 hover:text-violet-300 hover:scale-110 transition-all duration-200"
+                            className="text-emerald-400 hover:text-emerald-300 hover:scale-110 transition-all duration-200 opacity-80 group-hover:opacity-100"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>

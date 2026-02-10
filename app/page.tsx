@@ -49,7 +49,7 @@ export default function LandingPage() {
   return (
     <main
       className={`
-        relative min-h-dvh text-white
+        relative h-dvh text-white overflow-hidden
         /* base gradient with neon tint */
         bg-[linear-gradient(180deg,#1a0b2e_0%,#0f0520_50%,#0a0a10_100%)]
         /* dark violet neon glow top-right */
@@ -106,16 +106,18 @@ export default function LandingPage() {
       </div>
 
       {/* Content above the background */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left side - Features */}
-          <div className="lg:col-span-6">
-            <FeatureGrid />
-          </div>
+      <div className="relative z-10 w-full h-full flex flex-col min-h-0">
+        <div className="mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8 py-4 md:py-6 flex-1 flex flex-col min-h-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 flex-1 min-h-0">
+            {/* Left side - Features */}
+            <div className="lg:col-span-6 min-h-0">
+              <FeatureGrid />
+            </div>
 
-          {/* Right side - Chat */}
-          <div className="lg:col-span-6">
-            <ChatPanel messages={messages} onSendMessage={handleSendMessage} isLoading={isLoading} />
+            {/* Right side - Chat */}
+            <div className="lg:col-span-6 min-h-0">
+              <ChatPanel messages={messages} onSendMessage={handleSendMessage} isLoading={isLoading} />
+            </div>
           </div>
         </div>
       </div>

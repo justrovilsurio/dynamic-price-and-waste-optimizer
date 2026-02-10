@@ -20,12 +20,12 @@ const FEATURES = [
 
 export function FeatureGrid() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-full flex flex-col min-h-0">
       <div>
         <h2 className="text-base md:text-lg font-semibold text-white">Features</h2>
         <div className="mt-2 h-px bg-gradient-to-r from-violet-500/20 to-transparent" />
       </div>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-4 flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
         {FEATURES.map((feature) => (
           <Link key={feature.title} href={feature.href}>
             <FeatureCard
