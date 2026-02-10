@@ -27,6 +27,7 @@ export default function PricingPage() {
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [edits, setEdits] = useState<Record<string, { userAdjustedPrice?: number }>>({});
+  const [showTable, setShowTable] = useState(false);
 
   const handleApplyFilters = () => {
     setAppliedAction(draftAction);
@@ -34,6 +35,7 @@ export default function PricingPage() {
     setAppliedRegion(draftRegion);
     setAppliedState(draftState);
     setAppliedStore(draftStore);
+    setShowTable(true);
   };
 
   const handleResetFilters = () => {
@@ -159,16 +161,18 @@ export default function PricingPage() {
         />
 
         {/* Results Table */}
-        <PriceTable
-          items={filteredItems}
-          action={appliedAction}
-          selectedRowId={selectedRowId}
-          onSelectRow={setSelectedRowId}
-          onPriceChange={handlePriceChange}
-          edits={edits}
-          search={search}
-          onSearchChange={setSearch}
-        />
+        {showTable && (
+          <PriceTable
+            items={filteredItems}
+            action={appliedAction}
+            selectedRowId={selectedRowId}
+            onSelectRow={setSelectedRowId}
+            onPriceChange={handlePriceChange}
+            edits={edits}
+            search={search}
+            onSearchChange={setSearch}
+          />
+        )}
       </div>
     </main>
   );

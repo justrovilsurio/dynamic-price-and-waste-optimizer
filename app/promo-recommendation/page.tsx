@@ -28,6 +28,7 @@ export default function PromoRecommendationPage() {
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [edits, setEdits] = useState<Record<string, number>>({});
+  const [showTable, setShowTable] = useState(false);
 
   const handleApplyFilters = () => {
     setAppliedDepartment(draftDepartment);
@@ -36,6 +37,7 @@ export default function PromoRecommendationPage() {
     setAppliedRegion(draftRegion);
     setAppliedState(draftState);
     setAppliedStore(draftStore);
+    setShowTable(true);
   };
 
   const handleResetFilters = () => {
@@ -171,15 +173,17 @@ export default function PromoRecommendationPage() {
         />
 
         {/* Results Table */}
-        <PromoTable
-          items={mockPromoItems}
-          selectedRowId={selectedRowId}
-          onSelectRow={setSelectedRowId}
-          onPromoDurationChange={handlePromoDurationChange}
-          edits={edits}
-          search={search}
-          onSearchChange={setSearch}
-        />
+        {showTable && (
+          <PromoTable
+            items={mockPromoItems}
+            selectedRowId={selectedRowId}
+            onSelectRow={setSelectedRowId}
+            onPromoDurationChange={handlePromoDurationChange}
+            edits={edits}
+            search={search}
+            onSearchChange={setSearch}
+          />
+        )}
       </div>
     </main>
   );
