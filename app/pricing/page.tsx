@@ -7,6 +7,7 @@ import { ArrowLeft, BarChart3 } from 'lucide-react';
 import { mockItems, filterItems } from '@/lib/mockItems';
 import { FilterBar } from '@/components/pricing/FilterBar';
 import { PriceTable } from '@/components/pricing/PriceTable';
+import { PricingOptimizationPage } from '@/components/pricing/PricingOptimizationPage';
 
 export default function PricingPage() {
   // Draft filters (what user is selecting in UI)

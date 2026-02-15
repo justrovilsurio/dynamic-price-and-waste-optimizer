@@ -4,21 +4,35 @@ import { ReactNode } from 'react';
 
 interface BadgeProps {
   children: ReactNode;
-  variant?: 'success' | 'danger' | 'warning' | 'info';
+  variant?: 'promo' | 'increase' | 'decrease' | 'markdown' | 'high' | 'medium' | 'low' | 'success' | 'danger' | 'warning' | 'info';
   className?: string;
 }
 
 export function Badge({ children, variant = 'info', className = '' }: BadgeProps) {
-  const variantClasses = {
-    success: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200',
-    danger: 'bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-200',
-    warning: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200',
-    info: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-200',
+  const getStyles = (variant: string) => {
+    const styles: Record<string, React.CSSProperties> = {
+      promo: { backgroundColor: 'var(--badge-promo-bg)', color: 'var(--badge-promo-text)' },
+      increase: { backgroundColor: 'var(--badge-increase-bg)', color: 'var(--badge-increase-text)' },
+      decrease: { backgroundColor: 'var(--badge-decrease-bg)', color: 'var(--badge-decrease-text)' },
+      markdown: { backgroundColor: 'var(--badge-markdown-bg)', color: 'var(--badge-markdown-text)' },
+      high: { backgroundColor: 'var(--badge-high-bg)', color: 'var(--badge-high-text)' },
+      medium: { backgroundColor: 'var(--badge-medium-bg)', color: 'var(--badge-medium-text)' },
+      low: { backgroundColor: 'var(--badge-low-bg)', color: 'var(--badge-low-text)' },
+      success: { backgroundColor: 'var(--badge-high-bg)', color: 'var(--badge-high-text)' },
+      danger: { backgroundColor: 'var(--badge-low-bg)', color: 'var(--badge-low-text)' },
+      warning: { backgroundColor: 'var(--badge-medium-bg)', color: 'var(--badge-medium-text)' },
+      info: { backgroundColor: 'var(--badge-decrease-bg)', color: 'var(--badge-decrease-text)' },
+    };
+    return styles[variant] || styles.info;
   };
 
   return (
-    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${variantClasses[variant]} ${className}`}>
+    <span 
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${className}`}
+      style={getStyles(variant)}
+    >
       {children}
     </span>
   );
 }
+
