@@ -69,6 +69,18 @@ export function PricingOptimizationPage() {
         setSelectedScenario
     ] = useState<SimulationScenario | null>(null)
 
+    // Autopilot confirmation modal
+    const [
+        confirmAutopilotOpen, 
+        setConfirmAutopilotOpen
+    ] = useState(false);
+
+    // optional: store the mode the user attempted to switch to (future-proof)
+    const [
+        pendingMode, 
+        setPendingMode
+    ] = useState<Mode | null>(null);
+
 
     /*
 
@@ -177,6 +189,34 @@ export function PricingOptimizationPage() {
                 case 'Low':
                 return 'low';
             }
+        };
+
+    const handleModeChange = 
+        (value: string) => {
+            const next = value as Mode;
+
+            // If user is trying to enable autopilot, confirm first
+            if (next === 'autopilot' && mode !== 'autopilot') {
+                setPendingMode('autopilot');
+                setConfirmAutopilotOpen(true);
+                return; // IMPORTANT: do not setMode yet
+            }
+
+            // Otherwise set immediately
+            setMode(next);
+        };
+
+    const handleConfirmAutopilot = 
+        () => {
+            setMode('autopilot');
+            setPendingMode(null);
+            setConfirmAutopilotOpen(false);
+        };
+
+    const handleCloseAutopilotConfirm = 
+        () => {
+            setPendingMode(null);
+            setConfirmAutopilotOpen(false);
         };
 
 
@@ -308,7 +348,7 @@ export function PricingOptimizationPage() {
                         { label: 'Autopilot', value: 'autopilot' },
                         ]}
                         value={mode ?? undefined}
-                        onChange={(v) => setMode(v as Mode)}
+                        onChange={handleModeChange}
                     />
 
                     
@@ -556,9 +596,8 @@ export function PricingOptimizationPage() {
                 )}
 
             </Card>
-            
 
-
+            {/* Modals */}
             <Modal
                 open={!!activeProduct}
                 title={activeProduct?.name}
@@ -724,7 +763,60 @@ export function PricingOptimizationPage() {
                     </div>
                     </div>
                 )}
-                </Modal>
+            </Modal>
+
+            <Modal
+                open={confirmAutopilotOpen}
+                title="Enable Autopilot?"
+                onClose={handleCloseAutopilotConfirm}
+                >
+                <div className="space-y-4">
+                    <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                    Autopilot will automatically apply AI-recommended prices for the products you select.
+                    This may change prices without manual review.
+                    </p>
+
+                    <div
+                    className="rounded-xl p-4"
+                    style={{
+                        backgroundColor: 'var(--surface-2)',
+                        border: '1px solid var(--border)',
+                    }}
+                    >
+                    <p className="text-sm font-semibold mb-2" style={{ color: 'var(--text-dark)' }}>
+                        What will happen in Autopilot:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-1 text-sm" style={{ color: 'var(--text-muted)' }}>
+                        <li>Applies recommended prices for selected products automatically</li>
+                        <li>Reduces manual review steps in the workflow</li>
+                        <li>Add here the guardrails details</li>
+                    </ul>
+                    </div>
+
+                    <div className="flex justify-end gap-3 pt-2">
+                    <button
+                        type="button"
+                        onClick={handleConfirmAutopilot}
+                        className="px-5 py-2 rounded-lg font-semibold transition active:scale-95"
+                        style={{
+                        backgroundColor: 'var(--primary)',
+                        color: 'var(--primary-foreground)',
+                        boxShadow: 'var(--shadow)',
+                        }}
+                        onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--primary-hover)';
+                        e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+                        }}
+                        onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--primary)';
+                        e.currentTarget.style.boxShadow = 'var(--shadow)';
+                        }}
+                    >
+                        Yes, I agree
+                    </button>
+                    </div>
+                </div>
+            </Modal>
 
             {/* Info Footer */}
             <div className="mt-8 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
