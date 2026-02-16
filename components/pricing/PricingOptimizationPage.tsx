@@ -81,6 +81,8 @@ export function PricingOptimizationPage() {
         setPendingMode
     ] = useState<Mode | null>(null);
 
+    const [products, setProducts] = useState<PricingProduct[]>(mockPricingProducts.products);
+
 
     /*
 
@@ -96,8 +98,8 @@ export function PricingOptimizationPage() {
     const selectAllCheckboxRef = useRef<HTMLInputElement>(null);
 
     // Derived state
-    const allSelected = selectedRows.size === mockPricingProducts.length;
-    const someSelected = selectedRows.size > 0 && selectedRows.size < mockPricingProducts.length;
+    const allSelected = products.length > 0 && selectedRows.size === products.length;
+    const someSelected = selectedRows.size > 0 && selectedRows.size < products.length;
 
 
     /*
@@ -128,10 +130,10 @@ export function PricingOptimizationPage() {
 
     const handleSelectAll = 
         () => {
-            if (selectedRows.size === mockPricingProducts.length) {
+            if (selectedRows.size === mockPricingProducts.products.length) {
                 setSelectedRows(new Set());
             } else {
-                setSelectedRows(new Set(mockPricingProducts.map((p) => p.id)));
+                setSelectedRows(new Set(products.map((p) => p.id)));
             }
         };
 
@@ -255,6 +257,28 @@ export function PricingOptimizationPage() {
                     return newSet;
             });
     };
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:7071';
+            const res = await fetch(`${backendUrl}/api/pricing-products`, { method: 'GET' });
+
+            if (!res.ok) throw new Error('Failed to fetch pricing products');
+            const data = await res.json();
+
+            if (data?.products?.length) {
+                setProducts(data.products);
+            } else {
+                setProducts(mockPricingProducts.products); // fallback if empty
+            }
+            } catch (e) {
+            setProducts(mockPricingProducts.products); // fallback if error
+            }
+    };
+
+        load();
+    }, []);
 
 
   return (
@@ -417,7 +441,7 @@ export function PricingOptimizationPage() {
 
                         {/* Table Body */}
                         <tbody>
-                            {mockPricingProducts.map((product, index) => {
+                            {products.map((product, index) => {
                             const isSelected = selectedRows.has(product.id);
                             const userPrice = userAdjustedPrices[product.id] || '';
 
@@ -425,7 +449,7 @@ export function PricingOptimizationPage() {
                                     <tr
                                         key={product.id}
                                         className={`border-b transition-colors cursor-pointer ${
-                                            index === mockPricingProducts.length - 1 ? 'border-b-0' : ''
+                                            index === products.length - 1 ? 'border-b-0' : ''
                                         }`}
                                         style={{
                                             borderColor: 'var(--border)',
