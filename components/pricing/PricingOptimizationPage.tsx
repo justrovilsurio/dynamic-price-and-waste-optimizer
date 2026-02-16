@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { Pencil, Info } from 'lucide-react';
+import { Pencil, Info, ArrowLeft } from 'lucide-react';
 import { Tooltip } from '@/components/ui/Tooltip';
 
 import { Card } from '@/components/ui/Card';
@@ -28,6 +29,7 @@ interface ApprovalPayload {
 }
 
 export function PricingOptimizationPage() {
+    const router = useRouter();
 
     /*
 
@@ -284,6 +286,36 @@ export function PricingOptimizationPage() {
   return (
         <div className="min-h-screen p-6" style={{ backgroundColor: 'var(--bg)' }}>
         <div className="max-w-6xl mx-auto">
+        {/* Back Button (Glass / Gamified) */}
+        <button
+        onClick={() => router.back()}
+        className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all active:scale-95"
+        style={{
+            color: 'var(--text)',
+            background:
+            'linear-gradient(135deg, rgba(168,85,247,0.22) 0%, rgba(255,107,157,0.12) 60%, rgba(18,10,36,0.55) 100%)',
+            border: '1px solid rgba(168,85,247,0.35)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            boxShadow:
+            '0 0 0 1px rgba(168,85,247,0.15), 0 12px 30px rgba(0,0,0,0.35)',
+        }}
+        onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow =
+            '0 0 0 1px rgba(168,85,247,0.25), 0 0 18px rgba(168,85,247,0.25), 0 14px 34px rgba(0,0,0,0.45)';
+            e.currentTarget.style.borderColor = 'rgba(168,85,247,0.55)';
+        }}
+        onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow =
+            '0 0 0 1px rgba(168,85,247,0.15), 0 12px 30px rgba(0,0,0,0.35)';
+            e.currentTarget.style.borderColor = 'rgba(168,85,247,0.35)';
+        }}
+        aria-label="Go back"
+        >
+        <ArrowLeft className="w-4 h-4" />
+        Back
+        </button>
+
             {/* Header Section */}
             <div className="mb-8 pb-8" style={{ borderBottom: '2px solid var(--border)' }}>
             <h1 className="text-5xl font-bold mb-3" style={{ color: 'var(--primary)', fontWeight: '800', letterSpacing: '-0.02em' }}>
@@ -321,11 +353,11 @@ export function PricingOptimizationPage() {
                 </div>
 
                 {/* Mode Selection */}
-                <div className="p-6 rounded-xl" style={{ backgroundColor: '#F0F4FF', border: '1px solid #E0EBFF' }}>
+                <div className="p-6 rounded-xl" style={{ backgroundColor: 'var(--primary-light-bg)', border: '1px solid var(--primary)' }}>
                 <div className="flex items-center gap-2 mb-3">
                     <p
                     className="text-sm font-semibold"
-                    style={{ color: 'var(--text-dark)' }}
+                    style={{ color: 'var(--text)' }}
                     >
                     Mode
                     </p>

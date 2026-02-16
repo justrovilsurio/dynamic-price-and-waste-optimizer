@@ -8,65 +8,65 @@
 
 :root {
   /* ========== SURFACE & BACKGROUND ========== */
-  --bg: #F5F7FB;
-  --surface: #FFFFFF;
-  --surface-2: #EEF2F9;
-  --surface-hover: #F9FAFB;
+  --bg: #0F0D1E;
+  --surface: #1A1631;
+  --surface-2: #2D2547;
+  --surface-hover: #3D3557;
 
   /* ========== BORDERS & DIVIDERS ========== */
-  --border: #D9E2F0;
-  --border-subtle: #E8EEF7;
+  --border: #4A3F6F;
+  --border-subtle: #3D3557;
 
   /* ========== TEXT ========== */
-  --text: #1F2937;
-  --text-dark: #0F1729;
-  --text-muted: #6B7280;
-  --text-light: #9CA3AF;
+  --text: #E4D5FF;
+  --text-dark: #F5F1FF;
+  --text-muted: #B8A3D9;
+  --text-light: #9B8ABC;
 
-  /* ========== PRIMARY ACTION (Blue) ========== */
-  --primary: #155EEF;
-  --primary-hover: #0D47A1;
-  --primary-light: #0D47A1;
-  --primary-light-bg: #DFF4FF;
+  /* ========== PRIMARY ACTION (Vibrant Purple) ========== */
+  --primary: #A855F7;
+  --primary-hover: #9333EA;
+  --primary-light: #7C3AED;
+  --primary-light-bg: #5B21B6;
   --primary-foreground: #FFFFFF;
 
-  /* ========== SECONDARY (Gray) ========== */
-  --secondary: #6B7280;
-  --secondary-hover: #4B5563;
-  --secondary-light: #F3F4F6;
+  /* ========== SECONDARY (Dark Purple) ========== */
+  --secondary: #3D3557;
+  --secondary-hover: #4A3F6F;
+  --secondary-light: #2D2547;
 
   /* ========== INTERACTIVE & FOCUS ========== */
-  --ring: #155EEF;
-  --ring-offset: #FFFFFF;
+  --ring: #A855F7;
+  --ring-offset: #1A1631;
 
   /* ========== SHADOWS ========== */
-  --shadow-sm: 0 1px 2px 0 rgba(21, 94, 239, 0.08);
-  --shadow: 0 4px 12px -2px rgba(21, 94, 239, 0.15);
-  --shadow-lg: 0 10px 25px -5px rgba(21, 94, 239, 0.2);
+  --shadow-sm: 0 1px 2px 0 rgba(168, 85, 247, 0.12);
+  --shadow: 0 4px 12px -2px rgba(168, 85, 247, 0.25);
+  --shadow-lg: 0 10px 25px -5px rgba(168, 85, 247, 0.35);
 
   /* ========== BADGE VARIANTS - PROMO ========== */
-  --badge-promo-bg: #D1FAE5;
-  --badge-promo-text: #065F46;
+  --badge-promo-bg: #6D28D9;
+  --badge-promo-text: #E9D5FF;
 
   /* ========== BADGE VARIANTS - INCREASE ========== */
-  --badge-increase-bg: #FEF3C7;
-  --badge-increase-text: #92400E;
+  --badge-increase-bg: #EA580C;
+  --badge-increase-text: #FFFBEB;
 
   /* ========== BADGE VARIANTS - DECREASE ========== */
-  --badge-decrease-bg: #DBEAFE;
-  --badge-decrease-text: #0C4A6E;
+  --badge-decrease-bg: #0369A1;
+  --badge-decrease-text: #E0F2FE;
 
   /* ========== BADGE VARIANTS - MARKDOWN ========== */
-  --badge-markdown-bg: #FEE2E2;
-  --badge-markdown-text: #7F1D1D;
+  --badge-markdown-bg: #9F1239;
+  --badge-markdown-text: #FFE4E6;
 
   /* ========== CONFIDENCE BADGES ========== */
-  --badge-high-bg: #D1FAE5;
-  --badge-high-text: #065F46;
-  --badge-medium-bg: #FEF3C7;
-  --badge-medium-text: #92400E;
-  --badge-low-bg: #FEE2E2;
-  --badge-low-text: #7F1D1D;
+  --badge-high-bg: #6D28D9;
+  --badge-high-text: #E9D5FF;
+  --badge-medium-bg: #EA580C;
+  --badge-medium-text: #FFFBEB;
+  --badge-low-bg: #9F1239;
+  --badge-low-text: #FFE4E6;
 
   /* ========== LEGACY SUPPORT ========== */
   --background: var(--surface);

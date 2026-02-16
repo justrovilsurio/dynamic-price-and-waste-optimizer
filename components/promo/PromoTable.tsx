@@ -231,9 +231,9 @@ export function PromoTable({
           Cancel
         </button>
         <button
-          className="px-4 py-2 rounded-xl bg-gradient-to-br from-violet-500 to-violet-600
+          className="px-4 py-2 rounded-xl bg-gradient-to-br from-[#A855F7] to-[#9333EA]
                      text-white text-sm font-medium shadow-[0_0_22px] shadow-violet-600/30
-                     hover:from-violet-500 hover:to-violet-500/90
+                     hover:from-[#A855F7] hover:to-[#9333EA]/90
                      transition-all duration-300"
         >
           Publish

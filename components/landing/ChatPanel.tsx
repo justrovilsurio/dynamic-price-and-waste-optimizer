@@ -142,9 +142,9 @@ export function ChatPanel({ messages, onSendMessage, isLoading = false }: ChatPa
         <button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className="inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-violet-600
+          className="inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-[#A855F7] to-[#9333EA]
                      px-4 py-2 text-sm font-medium shadow-[0_0_22px] shadow-violet-600/30
-                     hover:from-violet-500 hover:to-violet-500/90
+                     hover:from-[#A855F7] hover:to-[#9333EA]/90
                      focus:outline-none focus:ring-2 focus:ring-violet-400/60 focus:ring-offset-2 focus:ring-offset-black
                      disabled:opacity-60 disabled:cursor-not-allowed transition"
           aria-label="Send message"

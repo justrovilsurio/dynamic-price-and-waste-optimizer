@@ -27,7 +27,7 @@ export function RegionalSummary({ title, metrics }: RegionalSummaryProps) {
             </div>
             <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-violet-500 to-violet-400 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-[#A855F7] to-[#7C3AED] rounded-full transition-all duration-500"
                 style={{ width: `${(metric.value / maxValue) * 100}%` }}
               />
             </div>
