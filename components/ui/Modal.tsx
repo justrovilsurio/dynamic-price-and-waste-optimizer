@@ -47,7 +47,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
           role="dialog"
           aria-modal="true"
           aria-label={title ?? 'Dialog'}
-          className="w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden"
+          className="w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden"
           style={{
             backgroundColor: 'var(--surface)',
             border: '1px solid var(--border)',

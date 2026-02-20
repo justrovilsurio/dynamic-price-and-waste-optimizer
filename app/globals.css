@@ -1,9 +1,10 @@
+
 @import "tailwindcss";
 
 /*
- * NEW SEMANTIC COLOR TOKENS
- * Modern soft neutral palette matching Pricing Optimization design
- * All colors are token-based for easy maintenance and theming
+ * SEMANTIC COLOR TOKENS
+ * Dark, modern palette for Pricing Optimization UI
+ * Badge colors are token-driven
  */
 
 :root {
@@ -23,14 +24,14 @@
   --text-muted: #B8A3D9;
   --text-light: #9B8ABC;
 
-  /* ========== PRIMARY ACTION (Vibrant Purple) ========== */
+  /* ========== PRIMARY ACTION ========== */
   --primary: #A855F7;
   --primary-hover: #9333EA;
   --primary-light: #7C3AED;
   --primary-light-bg: #5B21B6;
   --primary-foreground: #FFFFFF;
 
-  /* ========== SECONDARY (Dark Purple) ========== */
+  /* ========== SECONDARY ========== */
   --secondary: #3D3557;
   --secondary-hover: #4A3F6F;
   --secondary-light: #2D2547;
@@ -44,41 +45,60 @@
   --shadow: 0 4px 12px -2px rgba(168, 85, 247, 0.25);
   --shadow-lg: 0 10px 25px -5px rgba(168, 85, 247, 0.35);
 
-  /* ========== BADGE VARIANTS - PROMO ========== */
-  --badge-promo-bg: #6D28D9;
-  --badge-promo-text: #E9D5FF;
+  /* =====================================================
+     BADGE COLORS — RECOMMENDATIONS
+     ===================================================== */
 
-  /* ========== BADGE VARIANTS - INCREASE ========== */
+  /* Promo */
+  --badge-promo-bg: #065F46;
+  --badge-promo-text: #D1FAE5;
+
+  /* Increase */
   --badge-increase-bg: #EA580C;
   --badge-increase-text: #FFFBEB;
 
-  /* ========== BADGE VARIANTS - DECREASE ========== */
+  /* Decrease */
   --badge-decrease-bg: #0369A1;
   --badge-decrease-text: #E0F2FE;
 
-  /* ========== BADGE VARIANTS - MARKDOWN ========== */
+  /* Markdown */
   --badge-markdown-bg: #9F1239;
   --badge-markdown-text: #FFE4E6;
 
-  /* ========== CONFIDENCE BADGES ========== */
-  --badge-high-bg: #6D28D9;
-  --badge-high-text: #E9D5FF;
-  --badge-medium-bg: #EA580C;
-  --badge-medium-text: #FFFBEB;
-  --badge-low-bg: #9F1239;
-  --badge-low-text: #FFE4E6;
+  /* ✅ Keep (Neutral / No Change) */
+  --badge-keep-bg: #4b5769;      /* Slate */
+  --badge-keep-text: #E5E7EB;
 
-  /* ========== LEGACY SUPPORT ========== */
+  /* ✅ Review (Needs Attention) */
+  --badge-review-bg: #4C1D95;    /* Deep purple */
+  --badge-review-text: #F3E8FF;
+
+  /* =====================================================
+     BADGE COLORS — CONFIDENCE (TRAFFIC LIGHT)
+     ===================================================== */
+
+  /* High = Green */
+  --badge-high-bg: #065F46;      /* Emerald-800 */
+  --badge-high-text: #D1FAE5;
+
+  /* Medium = Amber */
+  --badge-medium-bg: #92400E;    /* Amber-800 */
+  --badge-medium-text: #FEF3C7;
+
+  /* Low = Red */
+  --badge-low-bg: #991B1B;       /* Red-800 */
+  --badge-low-text: #FEE2E2;
+
+  /* =====================================================
+     LEGACY SUPPORT
+     ===================================================== */
   --background: var(--surface);
   --foreground: var(--text-dark);
 }
 
-/* Dark mode support (maintains light theme for now) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Can be extended for dark mode in the future */
-  }
-}
+/* =====================================================
+   GLOBAL RESETS
+   ===================================================== */
 
 * {
   box-sizing: border-box;
@@ -97,17 +117,18 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
 }
 
-/* ========== COMPONENT BASE STYLES ========== */
+/* =====================================================
+   COMPONENT BASE STYLES
+   ===================================================== */
 @layer components {
-  /* CARD STYLES */
+  /* CARD */
   .card {
     border-radius: 1rem;
     background-color: var(--surface);
     border: 1px solid var(--border);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     padding: 1.5rem;
   }
 
@@ -117,106 +138,7 @@ body {
     color: var(--text-dark);
   }
 
-  /* STAT STYLES */
-  .stat-value {
-    font-size: 1.875rem;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    color: var(--text-dark);
-  }
-
-  .delta-positive {
-    color: #059669;
-  }
-
-  .delta-negative {
-    color: #dc2626;
-  }
-
-  /* BUTTON STYLES */
-  .btn-primary {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: var(--primary);
-    color: var(--primary-foreground);
-    transition-property: background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    outline: none;
-  }
-
-  .btn-primary:hover {
-    background-color: var(--primary-hover);
-  }
-
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-
-  .btn-secondary {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: var(--secondary-light);
-    color: var(--text);
-    transition-property: background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    font-weight: 500;
-    cursor: pointer;
-    border: none;
-    outline: none;
-  }
-
-  .btn-secondary:hover {
-    background-color: var(--surface-2);
-  }
-
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-
-  /* FOCUS RING UTILITY */
-  .focus-ring {
-    outline: none;
-  }
-
-  .focus-ring:focus {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-
-  /* INPUT STYLES */
-  .input-base {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border);
-    background-color: var(--surface);
-    color: var(--text);
-  }
-
-  .input-base::placeholder {
-    color: var(--text-muted);
-  }
-
-  .input-base:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--ring);
-    border-color: transparent;
-  }
-
-  /* TABLE STYLES */
+  /* TABLE */
   .table-header {
     background-color: var(--surface-2);
     border-bottom: 1px solid var(--border);
@@ -224,8 +146,7 @@ body {
 
   .table-row {
     border-bottom: 1px solid var(--border);
-    transition-property: background-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s ease;
   }
 
   .table-row:hover {
@@ -240,101 +161,32 @@ body {
   .badge-base {
     display: inline-flex;
     align-items: center;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  /* BADGE - RECOMMENDATION VARIANTS */
-  .badge-promo {
-    background-color: var(--badge-promo-bg);
-    color: var(--badge-promo-text);
-  }
-
-  .badge-increase {
-    background-color: var(--badge-increase-bg);
-    color: var(--badge-increase-text);
-  }
-
-  .badge-decrease {
-    background-color: var(--badge-decrease-bg);
-    color: var(--badge-decrease-text);
-  }
-
-  .badge-markdown {
-    background-color: var(--badge-markdown-bg);
-    color: var(--badge-markdown-text);
-  }
-
-  /* BADGE - CONFIDENCE VARIANTS */
-  .badge-high {
-    background-color: var(--badge-high-bg);
-    color: var(--badge-high-text);
-  }
-
-  .badge-medium {
-    background-color: var(--badge-medium-bg);
-    color: var(--badge-medium-text);
-  }
-
-  .badge-low {
-    background-color: var(--badge-low-bg);
-    color: var(--badge-low-text);
+    font-weight: 600;
+    line-height: 1;
   }
 }
 
-/* ========== ANIMATIONS ========== */
-@keyframes breathing {
-  0%, 100% {
-    box-shadow: 0 0 24px rgba(124, 35, 200, 0.3);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 50px rgba(124, 35, 200, 0.8), inset 0 0 20px rgba(124, 35, 200, 0.2);
-    border-color: rgba(124, 35, 200, 0.6);
-  }
-}
-
-.breathing {
-  animation: breathing 3s ease-in-out infinite !important;
-}
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-.slide-in-up {
-  animation: slideInUp 0.3s ease-in-out;
-}
-
-/* ========== RESPONSIVE UTILITIES ========== */
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
 @media (max-width: 1023px) {
   body {
     padding-top: 60px;
   }
 }
-

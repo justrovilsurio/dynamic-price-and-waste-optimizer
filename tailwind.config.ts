@@ -48,6 +48,10 @@ const config: Config = {
         'badge-decrease-text': 'var(--badge-decrease-text)',
         'badge-markdown-bg': 'var(--badge-markdown-bg)',
         'badge-markdown-text': 'var(--badge-markdown-text)',
+        'badge-keep-bg': 'var(--badge-keep-bg)',
+        'badge-keep-text': 'var(--badge-keep-text)',
+        'badge-review-bg': 'var(--badge-review-bg)',
+        'badge-review-text': 'var(--badge-review-text)',
 
         /* Badge - Confidence Variants */
         'badge-high-bg': 'var(--badge-high-bg)',
