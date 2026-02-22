@@ -46,8 +46,17 @@ export async function POST(request: Request) {
 
     if (!backendUrl) {
       console.error('❌ [API] No backend URL configured');
+      // return NextResponse.json(
+      //   { success: false, error: 'Backend service not configured' },
+      //   { status: 500 }
+      // );
+      console.log('⚠️ [API] Falling back to mock data for primaryGoal:', body.primaryGoal);
+      
+      // Fallback to mock data based on primary goal
+      const mockData = getMockDataByGoal(body.primaryGoal);
+      
       return NextResponse.json(
-        { success: false, error: 'Backend service not configured' },
+        { success: true, data: mockData, source: 'mock' },
         { status: 500 }
       );
     }
