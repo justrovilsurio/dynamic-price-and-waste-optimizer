@@ -25,6 +25,16 @@ interface ApprovalPayload {
   userAdjustedPrices: Record<string, string>;
 }
 
+/**
+ * UI-only extension:
+ * - appliedScenario: remember what scenario was applied (so when you reopen, it stays selected)
+ * - aiFinalRecommendedPrice: freeze the original AI recommendation so badge doesn't change
+ */
+type ProductRow = ValidatedAction & {
+  appliedScenario?: string;
+  aiFinalRecommendedPrice?: ValidatedAction['finalRecommendedPrice'];
+};
+
 export function PricingOptimizationPage() {
   const router = useRouter();
 
@@ -38,13 +48,13 @@ export function PricingOptimizationPage() {
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
   const [userAdjustedPrices, setUserAdjustedPrices] = useState<Record<string, string>>({});
 
-  const [activeProduct, setActiveProduct] = useState<ValidatedAction | null>(null);
+  const [activeProduct, setActiveProduct] = useState<ProductRow | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
 
   const [confirmAutopilotOpen, setConfirmAutopilotOpen] = useState(false);
   const [pendingMode, setPendingMode] = useState<Mode | null>(null);
 
-  const [products, setProducts] = useState<ValidatedAction[]>([]);
+  const [products, setProducts] = useState<ProductRow[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
 
@@ -69,19 +79,82 @@ export function PricingOptimizationPage() {
     FUNCTIONS
   */
 
-  const closeModal = () => setActiveProduct(null);
-  const openModal = (product: ValidatedAction) => setActiveProduct(product);
+  const closeModal = () => {
+    setActiveProduct(null);
+    setSelectedScenario(null);
+  };
 
+  const openModal = (product: ProductRow) => {
+    setActiveProduct(product);
+    // If a scenario was previously applied to this product, preselect it:
+    setSelectedScenario(product.appliedScenario ?? null);
+  };
+
+  /**
+   * Normalize simulation price to match your table price type if possible.
+   * - keeps numbers as numbers
+   * - parses "12.99" or "$12.99" into number 12.99
+   * - falls back to raw value if parsing fails
+   */
+  const normalizePrice = (price: unknown): any => {
+    if (typeof price === 'number') return price;
+
+    if (typeof price === 'string') {
+      const cleaned = price.replace(/[^0-9.\-]/g, '');
+      const parsed = Number(cleaned);
+      if (!Number.isNaN(parsed) && cleaned.length > 0) return parsed;
+      return price;
+    }
+
+    return price;
+  };
+
+  /**
+   * ✅ Apply from modal:
+   * - updates the clicked product's "Recommended Price" column (finalRecommendedPrice)
+   * - stores appliedScenario
+   * - closes the modal after apply (per your request)
+   *
+   * IMPORTANT: We do NOT want the Recommendation badge to change.
+   * So we keep `aiFinalRecommendedPrice` untouched and compute badge from that.
+   */
   const handleApplySimulation = () => {
     if (!activeProduct || !selectedScenario) return;
+
+    const chosenRow = (activeProduct.simulation ?? []).find((r) => r.scenario === selectedScenario);
+    if (!chosenRow) {
+      alert('Selected scenario could not be found.');
+      return;
+    }
+
+    const newRecommendedPrice = normalizePrice(chosenRow.price);
+
+    // Update products list so the main table updates immediately
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === activeProduct.id
+          ? {
+              ...p,
+              finalRecommendedPrice: newRecommendedPrice, // ✅ updates table column
+              appliedScenario: selectedScenario,
+              // ❗ do not change aiFinalRecommendedPrice (badge stays same)
+            }
+          : p
+      )
+    );
 
     console.log('Simulation Applied:', {
       productId: activeProduct.id,
       productName: activeProduct.description,
       selectedScenario,
+      selectedScenarioPrice: chosenRow.price,
+      newRecommendedPrice,
     });
 
     alert(`Applied scenario: ${selectedScenario}`);
+
+    // ✅ close after apply (as requested)
+    closeModal();
   };
 
   const handleSelectAll = () => {
@@ -133,7 +206,14 @@ export function PricingOptimizationPage() {
     | 'keep'
     | 'review';
 
-  const getRecommendationBadgeVariant = (rec: ValidatedAction): RecommendationBadgeVariant => {
+  /**
+   * Compute badge variant, but based on the ORIGINAL AI final price if present.
+   * This ensures simulation changes to finalRecommendedPrice do not affect the badge.
+   */
+  const getRecommendationBadgeVariant = (rec: ProductRow): RecommendationBadgeVariant => {
+    const badgePrice =
+      rec.aiFinalRecommendedPrice !== undefined ? rec.aiFinalRecommendedPrice : rec.finalRecommendedPrice;
+
     switch (rec.action) {
       case 'promo':
         return 'promo';
@@ -144,8 +224,8 @@ export function PricingOptimizationPage() {
       case 'manual_review':
         return 'review';
       case 'price_change': {
-        if (rec.finalRecommendedPrice > rec.currentPrice) return 'increase';
-        if (rec.finalRecommendedPrice < rec.currentPrice) return 'decrease';
+        if (badgePrice > rec.currentPrice) return 'increase';
+        if (badgePrice < rec.currentPrice) return 'decrease';
         return 'keep';
       }
       default:
@@ -217,11 +297,19 @@ export function PricingOptimizationPage() {
 
       if (!res.ok) {
         console.log('pricing optimization API error: 500');
-      };
+      }
 
       const response: ValidatedActionsResponse = await res.json();
 
-      const newRows = response.data?.validatedActions ?? [];
+      const newRows = (response.data?.validatedActions ?? []).map((row) => {
+        const r = row as ProductRow;
+        return {
+          ...r,
+          // ✅ freeze original AI recommended price for badge calculation
+          aiFinalRecommendedPrice: r.finalRecommendedPrice,
+        };
+      });
+
       setProducts(newRows);
 
       setIsLoading(false);
@@ -435,7 +523,7 @@ export function PricingOptimizationPage() {
             </div>
           ) : (
             <>
-              {/* ✅ Table only shows here */}
+              {/* ✅ Table */}
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -494,7 +582,6 @@ export function PricingOptimizationPage() {
                     {products.map((product, index) => {
                       const isSelected = selectedRows.has(product.id);
                       const userPrice = userAdjustedPrices[product.id] || '';
-
                       const recVariant = getRecommendationBadgeVariant(product);
 
                       return (
@@ -550,6 +637,7 @@ export function PricingOptimizationPage() {
                             {product.currentPrice}
                           </td>
 
+                          {/* ✅ This is the column you want to change */}
                           <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-dark)' }}>
                             {product.finalRecommendedPrice}
                           </td>
@@ -583,7 +671,7 @@ export function PricingOptimizationPage() {
                             </div>
                           </td>
 
-                         <td className="px-4 py-3 text-sm" style={{ color: 'var(--text-muted)' }}>
+                          <td className="px-4 py-3 text-sm" style={{ color: 'var(--text-muted)' }}>
                             {product.recommendedScope?.level === 'national'
                               ? 'National'
                               : product.recommendedScope?.level === 'region'
@@ -625,7 +713,7 @@ export function PricingOptimizationPage() {
                     boxShadow: selectedRows.size === 0 ? 'none' : 'var(--shadow)',
                   }}
                 >
-                  ✓ Approve & Apply ({selectedRows.size} selected)
+                  ✓ Approve &amp; Apply ({selectedRows.size} selected)
                 </button>
               </div>
             </>
@@ -782,14 +870,11 @@ export function PricingOptimizationPage() {
         <Modal open={confirmAutopilotOpen} title="Enable Autopilot?" onClose={handleCloseAutopilotConfirm}>
           <div className="space-y-4">
             <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-              Autopilot will automatically apply AI-recommended prices for the products you select.
-              This may change prices without manual review.
+              Autopilot will automatically apply AI-recommended prices for the products you select. This may change prices
+              without manual review.
             </p>
 
-            <div
-              className="rounded-xl p-4"
-              style={{ backgroundColor: 'var(--surface-2)', border: '1px solid var(--border)' }}
-            >
+            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--surface-2)', border: '1px solid var(--border)' }}>
               <p className="text-sm font-semibold mb-2" style={{ color: 'var(--text-dark)' }}>
                 What will happen in Autopilot:
               </p>
