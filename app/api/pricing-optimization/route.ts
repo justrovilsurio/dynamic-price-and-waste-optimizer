@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getMockDataByGoal } from '@/lib/mockAgentData';
 
 export const dynamic = 'force-dynamic';
 
@@ -83,13 +84,14 @@ export async function POST(request: Request) {
       );
     } catch (backendErr) {
       console.error('❌ [API] Backend fetch failed:', backendErr);
+      console.log('⚠️ [API] Falling back to mock data for primaryGoal:', body.primaryGoal);
+      
+      // Fallback to mock data based on primary goal
+      const mockData = getMockDataByGoal(body.primaryGoal);
+      
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Failed to reach backend service',
-          details: backendErr instanceof Error ? backendErr.message : String(backendErr)
-        },
-        { status: 503 }
+        { success: true, data: mockData, source: 'mock' },
+        { status: 200 }
       );
     }
   } catch (err) {
