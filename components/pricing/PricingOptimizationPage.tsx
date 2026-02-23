@@ -118,6 +118,17 @@ export function PricingOptimizationPage() {
   };
 
   /**
+   * Format price to always display 2 decimal places
+   * - converts to number if string
+   * - returns formatted string with $ prefix and 2 decimals
+   */
+  const formatPrice = (price: unknown): string => {
+    const normalized = normalizePrice(price);
+    const num = typeof normalized === 'string' ? parseFloat(normalized) : normalized;
+    return `$${isNaN(num) ? '0.00' : num.toFixed(2)}`;
+  };
+
+  /**
    * ✅ Apply from modal:
    * - updates the clicked product's "Recommended Price" column (finalRecommendedPrice)
    * - stores appliedScenario
@@ -651,12 +662,12 @@ export function PricingOptimizationPage() {
                           </td>
 
                           <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-dark)' }}>
-                            {product.currentPrice}
+                            {formatPrice(product.currentPrice)}
                           </td>
 
                           {/* ✅ This is the column you want to change */}
                           <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-dark)' }}>
-                            {product.finalRecommendedPrice}
+                            {formatPrice(product.finalRecommendedPrice)}
                           </td>
 
                           <td className="px-4 py-3">
@@ -839,7 +850,7 @@ export function PricingOptimizationPage() {
                               </td>
 
                               <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-dark)' }}>
-                                {row.price}
+                                {formatPrice(row.price)}
                               </td>
 
                               <td className="px-4 py-3" style={{ color: 'var(--text-dark)' }}>
