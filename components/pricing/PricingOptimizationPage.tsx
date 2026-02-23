@@ -11,6 +11,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { Modal } from '@/components/ui/Modal';
+import { FeedbackModal } from '@/components/ui/FeedbackModal';
 
 import { PRICING_OPTIMIZATION_TEMPLATE } from './constants/input-template';
 import { ValidatedAction, ValidatedActionsResponse, ConfidenceLevel } from '@/lib/types/products-type';
@@ -53,6 +54,13 @@ export function PricingOptimizationPage() {
 
   const [confirmAutopilotOpen, setConfirmAutopilotOpen] = useState(false);
   const [pendingMode, setPendingMode] = useState<Mode | null>(null);
+
+  const [feedbackModal, setFeedbackModal] = useState<{
+    open: boolean;
+    title?: string;
+    message: string;
+    type?: 'success' | 'error' | 'info';
+  }>({ open: false, message: '' });
 
   const [products, setProducts] = useState<ProductRow[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -151,7 +159,12 @@ export function PricingOptimizationPage() {
       newRecommendedPrice,
     });
 
-    alert(`Applied scenario: ${selectedScenario}`);
+    setFeedbackModal({
+      open: true,
+      title: 'Scenario Applied',
+      message: `Applied scenario: ${selectedScenario}`,
+      type: 'success',
+    });
 
     // ✅ close after apply (as requested)
     closeModal();
@@ -183,7 +196,6 @@ export function PricingOptimizationPage() {
 
   const handleApproveAndApply = () => {
     if (!primaryGoal || !mode) {
-      alert('Please select a Primary Goal and Mode.');
       return;
     }
 
@@ -195,7 +207,12 @@ export function PricingOptimizationPage() {
     };
 
     console.log('Approve & Apply Payload:', payload);
-    alert('Pricing optimization submitted! Check console for details.');
+    setFeedbackModal({
+      open: true,
+      title: 'Optimization Submitted',
+      message: 'Pricing optimization submitted!',
+      type: 'success',
+    });
   };
 
   type RecommendationBadgeVariant =
@@ -903,6 +920,16 @@ export function PricingOptimizationPage() {
           <p>Select products to approve pricing changes based on AI recommendations</p>
         </div>
       </div>
+
+      {/* Feedback Modal */}
+      <FeedbackModal
+        open={feedbackModal.open}
+        onClose={() => setFeedbackModal({ ...feedbackModal, open: false })}
+        title={feedbackModal.title}
+        message={feedbackModal.message}
+        type={feedbackModal.type}
+        autoCloseDuration={4000}
+      />
     </div>
   );
 }
