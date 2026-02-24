@@ -417,31 +417,6 @@ export const MOCK_REDUCE_GOAL = {
       reasonSignals: ["competitor_price"]
     },
 
-    // Markdown - Coke
-    {
-      id: "SCENARIO_MARKDOWN_SCOPE_STORE",
-      description: "COCA-COLA CLASSIC 1.25L",
-      imageUrl: "/classic_coca_cola.png",
-      recommendedScope: { level: "store", region: null, store: 560 },
-      action: "markdown",
-      currentPrice: 2.99,
-      finalRecommendedPrice: 2.1,
-      promo: [],
-      markdown: {
-        enabled: true,
-        strategy: "single",
-        steps: [{ dayOffset: 0, price: 2.1 }]
-      },
-      simulation: [
-        { scenario: "Current price", price: 2.99, revenue: "$239", margin: "33.3%", waste: "30%" },
-        { scenario: "Optimized Price", price: 2.1, revenue: "$294", margin: "5.0%", waste: "8%" }
-      ],
-      riskLevel: "Low",
-      confidence: "High",
-      notes: "Aggressive markdown (allowed) to minimize waste before expiry.",
-      reasonSignals: ["expiry_risk", "store_hotspot", "policy_compliant"]
-    },
-
     // Markdown - Yoghurt (deeper)
     {
       id: "SCENARIO_MARKDOWN_SCOPE_STORE_YOGHURT",

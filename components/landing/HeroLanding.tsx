@@ -11,7 +11,7 @@ const HeroLanding: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen overflow-x-hidden hero-bg relative">
+    <main className="w-full overflow-x-hidden hero-bg relative">
       <style>{`
         /* ===============================
           GAMIFIED HERO BACKGROUND
@@ -19,6 +19,7 @@ const HeroLanding: React.FC = () => {
         .hero-bg {
           position: relative;
           isolation: isolate;
+          overflow: hidden;
           background:
             radial-gradient(1200px 600px at 85% 20%, rgba(168,85,247,0.18), transparent 60%),
             radial-gradient(800px 400px at 15% 80%, rgba(255,107,157,0.14), transparent 55%),
@@ -44,7 +45,7 @@ const HeroLanding: React.FC = () => {
         .hero-bg::after {
           content: "";
           position: absolute;
-          inset: -20%;
+          inset: 0;
           z-index: 0;
           pointer-events: none;
           background:
@@ -133,9 +134,9 @@ const HeroLanding: React.FC = () => {
           ABOVE-THE-FOLD LAYOUT HELPERS
         ================================ */
         .above-fold {
-          min-height: 100svh; /* modern viewport units (better on mobile) */
           display: flex;
           flex-direction: column;
+          width: 100%;
         }
 
         /* Horizontal bento rail on md+ keeps height compact */

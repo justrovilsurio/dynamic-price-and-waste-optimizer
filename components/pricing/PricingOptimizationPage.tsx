@@ -591,8 +591,8 @@ export function PricingOptimizationPage() {
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'white' }}>
                         User Adjusted Price
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'white' }}>
-                        Recommended Scope
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide rounded" style={{ color: '#FFE4B5', backgroundColor: 'rgba(168, 85, 247, 0.25)', fontWeight: 800 }}>
+                        Recommended Scope 🎯
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'white' }}>
                         Reason
@@ -600,8 +600,8 @@ export function PricingOptimizationPage() {
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'white' }}>
                         Expected Impact
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide" style={{ color: 'white' }}>
-                        Confidence
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide rounded" style={{ color: '#FFE4B5', backgroundColor: 'rgba(168, 85, 247, 0.25)', fontWeight: 800 }}>
+                        Confidence⚡
                       </th>
                     </tr>
                   </thead>
@@ -699,13 +699,13 @@ export function PricingOptimizationPage() {
                             </div>
                           </td>
 
-                          <td className="px-4 py-3 text-sm" style={{ color: 'var(--text-muted)' }}>
+                          <td className="px-4 py-3 text-sm rounded font-medium" style={{ backgroundColor: 'rgba(168, 85, 247, 0.12)', color: 'rgba(168, 85, 247, 1)', border: '1px solid rgba(168, 85, 247, 0.25)' }}>
                             {product.recommendedScope?.level === 'national'
-                              ? 'National'
+                              ? '🌍 National'
                               : product.recommendedScope?.level === 'region'
-                              ? `Region: ${product.recommendedScope.region}`
+                              ? `🗺️ Region: ${product.recommendedScope.region}`
                               : product.recommendedScope?.level === 'store'
-                              ? `Store: ${product.recommendedScope.store}`
+                              ? `🏪 Store: ${product.recommendedScope.store}`
                               : 'No scope change'}
                           </td>
 
@@ -717,7 +717,7 @@ export function PricingOptimizationPage() {
                             {product.notes || 'No impact notes'}
                           </td>
 
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 rounded" style={{ backgroundColor: 'rgba(168, 85, 247, 0.12)', border: '1px solid rgba(168, 85, 247, 0.25)' }}>
                             <Badge variant={getConfidenceBadgeVariant(product.confidence)}>{product.confidence}</Badge>
                           </td>
                         </tr>
